@@ -62,6 +62,7 @@ public class MyGame extends VariableFrameRateGame {
     private int player1Score, player2Score;
     private boolean gameOver,player1Wins, gameTied;
     private OrbitController orC;
+    private Viewport botViewport, topViewport ;
 
 
 
@@ -89,10 +90,10 @@ public class MyGame extends VariableFrameRateGame {
 
     protected void setupWindowViewports(RenderWindow rw)
     { rw.addKeyListener(this);
-        Viewport topViewport = rw.getViewport(0);
-        topViewport.setDimensions(.50f, .0f, 1.f, .498f); // B,L,W,H
+        topViewport = rw.getViewport(0);
+        topViewport.setDimensions(.50f, .0f, 1.0f, .499f); // B,L,W,H
         topViewport.setClearColor(new Color(0.2589f, .8745f, .9569f));
-        Viewport botViewport = rw.createViewport(.0f, .0f, 1.0f, .498f);
+        botViewport = rw.createViewport(.0f, .0f, 1.0f, .499f);
         botViewport.setClearColor(new Color(0.2589f, .8745f, .9569f));
     }
 
@@ -357,14 +358,15 @@ public class MyGame extends VariableFrameRateGame {
 
         dispStr = "Countdown: " + (timeLeftStr) + " Score: " + player2Score;
         dispStr2 = "Countdown: " + (timeLeftStr) + " Score: " + player1Score;
+        int hud2NewPos = (topViewport.getActualBottom() + 15);
 
         // after 60 seconds, see who has more points, whoever does, wins
        // finished bool && player1wins bool
         if(gameOver == false){
             rs.setHUD(dispStr, 15, 15);
-            rs.setHUD2(dispStr2, 15, rWin.getHeight()/2);
+            rs.setHUD2(dispStr2, 15, hud2NewPos);
         }else if(gameOver == true && player1Wins == true && gameTied == false){
-            rs.setHUD2("You won, your final score is: " + player1Score, 15, rWin.getHeight()/2);
+            rs.setHUD2("You won, your final score is: " + player1Score, 15, hud2NewPos);
             rs.setHUD("You lost, your final score is: " + player2Score, 15, 15);
             bC.removeAllNodes();
 
@@ -378,7 +380,7 @@ public class MyGame extends VariableFrameRateGame {
                 }
             }
         }else if(gameOver == true && player1Wins == false && gameTied == false){
-            rs.setHUD2("You Lost, your final score is: " + player1Score, 15, rWin.getHeight()/2);
+            rs.setHUD2("You Lost, your final score is: " + player1Score, 15, hud2NewPos);
             rs.setHUD("You won, your final score is: " + player2Score, 15, 15);
             int currentIndex;
 
@@ -393,7 +395,7 @@ public class MyGame extends VariableFrameRateGame {
             }
         }else{
             int currentIndex;
-            rs.setHUD2("You tied! The plantes have been returned to the origin, Your Score: " + player1Score, 15, rWin.getHeight()/2);
+            rs.setHUD2("You tied! The plantes have been returned to the origin, Your Score: " + player1Score, 15, hud2NewPos);
             rs.setHUD("You tied! The plantes have been returned to the origin, YourScore: " + player2Score, 15, 15);
             wC.removeAllNodes();
             bC.removeAllNodes();
@@ -499,7 +501,7 @@ public class MyGame extends VariableFrameRateGame {
 
 
 
-            //System.out.println("earthName: " + node.getName() + "dist: " + d1result);
+
         }
     }
 
